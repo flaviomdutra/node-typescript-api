@@ -1,5 +1,6 @@
 declare global {
-  const testRequest: import('supertest/lib/agent');
+  //eslint-disable-next-line no-var
+  var testRequest: import('supertest/lib/agent');
 }
 
 export {};
