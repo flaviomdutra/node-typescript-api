@@ -28,6 +28,7 @@
     "@types/config": "^3.3.5",
     "@types/express": "^5.0.1",
     "@types/jest": "^29.5.14",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/module-alias": "^2.0.4",
     "@types/mongoose": "^5.11.97",
     "@types/nock": "^11.1.0",
@@ -52,6 +53,7 @@
     "body-parser": "^2.2.0",
     "config": "^3.3.12",
     "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
     "module-alias": "^2.2.3",
     "mongoose": "^8.13.3"
   }
