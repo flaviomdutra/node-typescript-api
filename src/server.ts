@@ -1,3 +1,5 @@
+import './util/module-alias';
+
 import { Server } from '@overnightjs/core';
 import * as database from '@src/database';
 import bodyParser from 'body-parser';
@@ -9,7 +11,6 @@ import { BeachesController } from './controllers/beaches';
 import { ForecastController } from './controllers/forecast';
 import { UsersController } from './controllers/users';
 import logger from './logger';
-import './util/module-alias';
 
 export class SetupServer extends Server {
   private server?: http.Server;
