@@ -11,9 +11,7 @@ describe('Beach forecast functional tests', () => {
     email: 'john3@mail.com',
     password: '1234',
   };
-
   let token: string;
-
   beforeEach(async () => {
     await Beach.deleteMany({});
     await User.deleteMany({});
@@ -28,7 +26,6 @@ describe('Beach forecast functional tests', () => {
     await new Beach(defaultBeach).save();
     token = AuthService.generateToken(user.toJSON());
   });
-
   it('should return a forecast with just a few times', async () => {
     nock('https://api.stormglass.io:443', {
       encodedQueryParams: true,
