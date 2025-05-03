@@ -1,20 +1,20 @@
-import './util/module-alias';
-
 import { Server } from '@overnightjs/core';
 import * as database from '@src/database';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { Application } from 'express';
-import { OpenApiValidator } from 'express-openapi-validator';
+import * as OpenApiValidator from 'express-openapi-validator';
 import { OpenAPIV3 } from 'express-openapi-validator/dist/framework/types';
 import expressPino from 'express-pino-logger';
 import * as http from 'http';
 import swaggerUi from 'swagger-ui-express';
-import apiSchema from './api.schema.json';
+import apiSchema from './api-schema.json';
 import { BeachesController } from './controllers/beaches';
 import { ForecastController } from './controllers/forecast';
 import { UsersController } from './controllers/users';
 import logger from './logger';
+import { apiErrorValidator } from './middlewares/api-error-validator';
+import './util/module-alias';
 
 export class SetupServer extends Server {
   private server?: http.Server;
@@ -35,6 +35,8 @@ export class SetupServer extends Server {
     await this.docsSetup();
     this.setupControllers();
     await this.databaseSetup();
+    //must be the last
+    this.setupErrorHandlers();
   }
 
   private setupExpress(): void {
@@ -51,6 +53,17 @@ export class SetupServer extends Server {
     );
   }
 
+  private async docsSetup(): Promise<void> {
+    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSchema));
+    this.app.use(
+      OpenApiValidator.middleware({
+        apiSpec: apiSchema as OpenAPIV3.DocumentV3,
+        validateRequests: true, //will be implemented in step2
+        validateResponses: true, //will be implemented in step2
+      })
+    );
+  }
+
   private setupControllers(): void {
     const forecastController = new ForecastController();
     const beachesController = new BeachesController();
@@ -62,13 +75,8 @@ export class SetupServer extends Server {
     ]);
   }
 
-  private async docsSetup(): Promise<void> {
-    this.app.use('/docs', swaggerUi.serve, swaggerUi.setup(apiSchema));
-    await new OpenApiValidator({
-      apiSpec: apiSchema as OpenAPIV3.Document,
-      validateRequests: true,
-      validateResponses: true,
-    }).install(this.app);
+  private setupErrorHandlers(): void {
+    this.app.use(apiErrorValidator);
   }
 
   public getApp(): Application {
