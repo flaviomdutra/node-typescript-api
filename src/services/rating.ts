@@ -31,7 +31,8 @@ export class Rating {
     const swellHeightRating = this.getRatingForSwellSize(point.swellHeight);
     const swellPeriodRating = this.getRatingForSwellPeriod(point.swellPeriod);
 
-    const finalRating = (windAndWaveRating + swellHeightRating + swellPeriodRating) / 3;
+    const finalRating =
+      (windAndWaveRating + swellHeightRating + swellPeriodRating) / 3;
 
     return Math.round(finalRating);
   }

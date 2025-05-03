@@ -1,4 +1,3 @@
-
 import ApiError from '@src/util/errors/api-error';
 import { NextFunction, Request, Response } from 'express';
 

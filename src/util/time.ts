@@ -1,4 +1,3 @@
-
 import moment from 'moment';
 //TODO someone to implement unit tests
 export class TimeUtil {
